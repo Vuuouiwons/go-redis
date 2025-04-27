@@ -1,0 +1,27 @@
+services:
+  redis:
+    container_name: redis-cache
+    restart: unless-stopped
+    image: redis:7.4.3-alpine3.21
+    volumes:
+      - ./redis:/usr/local/etc/redis
+    ports:
+      - 6379:6379
+    networks:
+      - redis
+    command: ["redis-server", "--requirepass", "password"]
+
+  run-service:
+    container_name: redis-test
+    image: go-redis-test:latest
+    # restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    networks:
+      - redis
+
+networks:
+  redis:
+    name: redis
+    driver: bridge
