@@ -17,7 +17,7 @@ func main() {
 
 	ctx := context.Background()
 	
-	// add key: test, with value: payload
+	// add / update key: test, with value: payload
 	err := client.Set(ctx, "test", "payload", 0).Err()
 	if err != nil {
 		panic(err)
